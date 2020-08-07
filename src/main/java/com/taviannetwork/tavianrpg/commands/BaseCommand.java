@@ -1,7 +1,6 @@
 package com.taviannetwork.tavianrpg.commands;
 
 import com.taviannetwork.tavianrpg.commands.data.CommandResult;
-import com.taviannetwork.tavianrpg.commands.data.CommandSource;
 import com.taviannetwork.tavianrpg.utils.ChatUtils;
 import com.google.inject.Singleton;
 import org.bukkit.ChatColor;
