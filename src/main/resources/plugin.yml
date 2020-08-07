@@ -1,0 +1,7 @@
+name: TavianRPG
+version: @version@
+main: com.taviannetwork.tavianrpg.TavianRPG
+api-version: 1.16
+authors: [AtomIsHere]
+description: RPG plugin for 1.16.1
+website: https://github.com/AtomIsHere/
