@@ -15,8 +15,6 @@ import com.google.inject.Singleton;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.InvocationTargetException;
-
 @Singleton
 public final class TavianRPG extends JavaPlugin {
     private boolean loadingFailed = false;
@@ -35,7 +33,7 @@ public final class TavianRPG extends JavaPlugin {
         try {
             CustomBukkitAttribute.injectAttributes();
             CustomEntities.register();
-        } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             loadingFailed = true;
         }
@@ -47,6 +45,7 @@ public final class TavianRPG extends JavaPlugin {
         if(loadingFailed) {
             getLogger().severe("Loading failed, disabling plugin...");
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         TavianRPGModule module = new TavianRPGModule(this);
