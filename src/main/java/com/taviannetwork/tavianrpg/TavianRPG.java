@@ -19,6 +19,8 @@ import java.lang.reflect.InvocationTargetException;
 
 @Singleton
 public final class TavianRPG extends JavaPlugin {
+    private boolean loadingFailed = false;
+
     private Injector injector;
 
     @Inject
@@ -32,16 +34,21 @@ public final class TavianRPG extends JavaPlugin {
     public void onLoad() {
         try {
             CustomBukkitAttribute.injectAttributes();
+            CustomEntities.register();
         } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | ClassNotFoundException e) {
             e.printStackTrace();
-            getPluginLoader().disablePlugin(this);
+            loadingFailed = true;
         }
 
-        CustomEntities.register();
     }
 
     @Override
     public void onEnable() {
+        if(loadingFailed) {
+            getLogger().severe("Loading failed, disabling plugin...");
+            getServer().getPluginManager().disablePlugin(this);
+        }
+
         TavianRPGModule module = new TavianRPGModule(this);
         injector = module.createInjector();
         injector.injectMembers(this);
@@ -66,6 +73,10 @@ public final class TavianRPG extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if(loadingFailed) {
+            return;
+        }
+
         try {
             moduleManager.stop();
             serviceManager.stop();
