@@ -3,6 +3,7 @@ package com.taviannetwork.tavianrpg.entity;
 import com.google.common.collect.BiMap;
 import com.mojang.datafixers.DataFixUtils;
 import com.mojang.datafixers.types.Type;
+import lombok.Getter;
 import net.minecraft.server.v1_16_R1.*;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+@Getter
 public class CustomEntityType<T extends EntityLiving> {
     @Nullable private static Field REGISTRY_MAT_MAP;
 
