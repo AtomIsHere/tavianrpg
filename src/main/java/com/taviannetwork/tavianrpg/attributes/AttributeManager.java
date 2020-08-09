@@ -16,9 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Singleton
 @ServiceInfo(serviceName = "AttributeManager", serviceVersion = "1.0.0", serviceAuthor = "AtomIsHere")
 //Custom Attributes are already injected into the Bukkit API through the black magic of internal jdk classes. This is primarily for handling mana and player attribute displays.
-public class AttributeManager implements Service, Listener {
-    private static final String ENTITY_NAME_FORMAT = ChatColor.WHITE + "%s " + ChatColor.GRAY + "[%o/%o]";
-
+public class AttributeManager implements Service {
     @Inject
     private TavianRPG plugin;
 
@@ -48,29 +46,4 @@ public class AttributeManager implements Service, Listener {
         player.setMetadata(manaKey.toString(), new FixedMetadataValue(plugin, mana));
     }
 
-    /* TODO: Fix Entity Display (Will probably just include this in CustomEntities)
-    @EventHandler
-    public void onEntitySpawn(EntitySpawnEvent event) {
-        if(event.getEntity() instanceof LivingEntity && !(event.getEntity() instanceof Player) && !(event.getEntity() instanceof ArmorStand)) {
-            LivingEntity entity = (LivingEntity) event.getEntity();
-            Long maxHealth = Math.round(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
-
-            entity.setCustomName(String.format(ENTITY_NAME_FORMAT, entity.getName(), Math.round(entity.getHealth()), maxHealth));
-            entity.setCustomNameVisible(true);
-        }
-    }
-
-
-    @EventHandler
-    public void onEntityDamage(EntityDamageEvent event) {
-        if(event.getEntity() instanceof LivingEntity && !(event.getEntity() instanceof Player) && !(event.getEntity() instanceof ArmorStand)) {
-            LivingEntity entity = (LivingEntity) event.getEntity();
-            Long maxHealth = Math.round(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
-
-            String name = ChatColor.stripColor(entity.getName()).split(Pattern.quote(" ["))[0];
-
-            entity.setCustomName(String.format(ENTITY_NAME_FORMAT, name, Math.round(entity.getHealth() - event.getDamage()), maxHealth));
-        }
-    }
-     */
 }
