@@ -14,6 +14,8 @@ import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.Map;
 
+import static com.taviannetwork.tavianrpg.utils.ReflectionUtils.makeAccessible;
+
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum CustomBukkitAttribute {
     GENERIC_RPG_DAMAGE("generic.rpg_damage", CustomNMSAttribute.RPG_DAMAGE),
@@ -78,18 +80,9 @@ public enum CustomBukkitAttribute {
         injected = true;
     }
 
-    private static void makeAccessible(Field field) throws NoSuchFieldException, IllegalAccessException {
-        field.setAccessible(true);
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(field, field.getModifiers() & ~ Modifier.FINAL);
-    }
-
     @SuppressWarnings("unchecked")
     private static void injectNmsAttributes() throws NoSuchFieldException, IllegalAccessException {
-        Field defaultEntityAttributesField = AttributeDefaults.class.getDeclaredField("b");
-        defaultEntityAttributesField.setAccessible(true);
-        Map<EntityTypes<? extends EntityLiving>, AttributeProvider> defaultEntityAttributes = (Map<EntityTypes<? extends EntityLiving>, AttributeProvider>) defaultEntityAttributesField.get(null);
+        Map<EntityTypes<? extends EntityLiving>, AttributeProvider> defaultEntityAttributes = AttributeDefaults.getDefaults();
 
         for(AttributeProvider target : defaultEntityAttributes.values()) {
             Field attributeMapField = AttributeProvider.class.getDeclaredField("a");
