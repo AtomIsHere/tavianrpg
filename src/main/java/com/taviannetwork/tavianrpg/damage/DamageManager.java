@@ -43,8 +43,8 @@ public class DamageManager implements Service, Listener {
     private void createDefaultModifiers() {
         //Base Damage
         registerDefaultModifier((dm) -> {
-            double strength = dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_STRENGTH.getBukkitAttribute()).getBaseValue();
-            double damage = dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_DAMAGE.getBukkitAttribute()).getBaseValue();
+            double strength = dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_STRENGTH.getBukkitAttribute()).getValue();
+            double damage = dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_DAMAGE.getBukkitAttribute()).getValue();
 
             dm.setCurrentDamage((5.0D + damage + Math.floor(strength/5.0D)) * (1 + (strength/100)));
         });
@@ -52,17 +52,17 @@ public class DamageManager implements Service, Listener {
         //Critical Damage
         registerDefaultModifier((dm) -> {
             double rand = Math.random();
-            double critChance = dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_CRITICAL_CHANCE.getBukkitAttribute()).getBaseValue() / 100.0D;
+            double critChance = dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_CRITICAL_CHANCE.getBukkitAttribute()).getValue() / 100.0D;
 
             if(critChance >= rand) {
-                dm.setCurrentDamage(dm.getCurrentDamage() * (1 + dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_CRITICAL_DAMAGE.getBukkitAttribute()).getBaseValue()));
+                dm.setCurrentDamage(dm.getCurrentDamage() * (1 + dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_CRITICAL_DAMAGE.getBukkitAttribute()).getValue()));
                 dm.setCritical(true);
             }
         });
 
         //Defence
         registerDefaultModifier((dm) -> {
-            double defence = dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_DEFENCE.getBukkitAttribute()).getBaseValue();
+            double defence = dm.getDamager().getAttribute(CustomBukkitAttribute.GENERIC_RPG_DEFENCE.getBukkitAttribute()).getValue();
             if(defence == 0.0D) {
                 return;
             }
@@ -96,9 +96,9 @@ public class DamageManager implements Service, Listener {
         stand.setRemoveWhenFarAway(true);
 
         if(crit) {
-            stand.setCustomName(ChatColor.GOLD + "✪ " + damage + " ✪");
+            stand.setCustomName(ChatColor.GOLD + "✪ " + Math.round(damage) + " ✪");
         } else {
-            stand.setCustomName(ChatColor.GRAY.toString() + damage);
+            stand.setCustomName(ChatColor.GRAY.toString() + Math.round(damage));
         }
         stand.setCustomNameVisible(true);
     }
