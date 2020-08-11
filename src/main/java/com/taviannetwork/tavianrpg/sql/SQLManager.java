@@ -10,14 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
 @ServiceInfo(serviceName = "SQLManager", serviceVersion = "1.0.0", serviceAuthor = "AtomIsHere")
 public class SQLManager implements Service {
-    private final Map<Class<?>, SQLTypeAdapter<?>> typeAdapters = new HashMap<>();
+    private final Map<Class<?>, SQLTypeAdapter<?>> typeAdapters = new ConcurrentHashMap<>();
 
     @Inject
     private SQLConnectionManager sqlConnectionManager;
