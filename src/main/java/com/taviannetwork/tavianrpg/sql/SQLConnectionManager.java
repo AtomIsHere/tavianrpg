@@ -7,8 +7,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -22,7 +25,25 @@ public class SQLConnectionManager implements Service {
 
     @Override
     public void start() {
-        dataSource = new HikariDataSource(new HikariConfig(new File(plugin.getDataFolder(), "datasource.properties").getAbsolutePath()));
+        // Preloading the connector...
+        try {
+            Class.forName("org.mariadb.jdbc.MariaDbDataSource", true, getClass().getClassLoader());
+        } catch (ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+            return;
+        }
+
+        File propertiesFile = new File(plugin.getDataFolder(), "datasource.properties");
+        if(!propertiesFile.exists()) {
+            try(InputStream inputStream = plugin.getResource("datasource.properties")) {
+                FileUtils.copyInputStreamToFile(inputStream, propertiesFile);
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+                return;
+            }
+        }
+
+        dataSource = new HikariDataSource(new HikariConfig(propertiesFile.getAbsolutePath()));
     }
 
     @Override

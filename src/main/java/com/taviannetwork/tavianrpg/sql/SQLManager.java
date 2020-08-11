@@ -22,7 +22,7 @@ public class SQLManager implements Service {
     @Inject
     private SQLConnectionManager sqlConnectionManager;
 
-    public <T> List<T> fromSQL(Class<T> type, String query) throws SQLException {
+    public <T> T fromSQL(Class<T> type, String query) throws SQLException {
         SQLTypeAdapter<T> typeAdapter = getTypeAdapter(type);
         if(typeAdapter == null) {
             return null;

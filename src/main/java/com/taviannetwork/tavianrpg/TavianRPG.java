@@ -12,6 +12,8 @@ import com.taviannetwork.tavianrpg.services.ServiceManager;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import com.taviannetwork.tavianrpg.sql.SQLConnectionManager;
+import com.taviannetwork.tavianrpg.sql.SQLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -91,11 +93,13 @@ public final class TavianRPG extends JavaPlugin {
     }
 
     public void createDefaultServices() {
-        //serviceManager.createService(SQLConnectionManager.class);
-        //serviceManager.createService(SQLManager.class);
+        serviceManager.createService(SQLConnectionManager.class);
+        serviceManager.createService(SQLManager.class);
+
         serviceManager.createService(ItemManager.class);
         serviceManager.createService(DamageManager.class);
         serviceManager.createService(AttributeManager.class);
+
         serviceManager.createService(TestService.class);
     }
 }

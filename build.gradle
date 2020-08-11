@@ -38,9 +38,13 @@ dependencies {
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.1-R0.1-SNAPSHOT'
     compileOnly 'com.destroystokyo.paper:paper:1.16.1-R0.1-SNAPSHOT'
 
+    compileOnly 'com.grinderwolf:slimeworldmanager-api:2.3.0-SNAPSHOT'
+
     implementation 'io.github.classgraph:classgraph:4.8.87'
     implementation 'com.google.inject:guice:4.2.3'
     implementation 'com.zaxxer:HikariCP:3.4.5'
+    // SQL Connector (Can be changed depending on the database we're using)
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.6.2'
 
     compile 'org.jetbrains:annotations:16.0.2'
 
