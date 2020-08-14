@@ -1,9 +1,8 @@
 package com.taviannetwork.tavianrpg;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.*;
 import com.taviannetwork.tavianrpg.module.ModuleManager;
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.bukkit.plugin.Plugin;
@@ -24,5 +23,11 @@ public class TavianRPGModule extends AbstractModule {
         bind(TavianRPG.class).toInstance(plugin);
 
         ModuleManager.getOfferedModules().forEach((k, v) -> bind(k).toInstance(v));
+    }
+
+    @Provides
+    @Singleton
+    public ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
     }
 }
